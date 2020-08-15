@@ -1,0 +1,22 @@
+.About {
+    text-align: center;
+}
+
+.About-header {
+    background-image: linear-gradient(118deg, #2b3a75 19%, #5586d8 79%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.App-logo {
+    width : 156px;
+    height : 25px;
+    position : absolute;
+    top : 25px;
+    left : 30px;
+}
