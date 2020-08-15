@@ -1,26 +1,27 @@
 import React from 'react';
-import logo from './logo.svg';
+import logo from './imgs/ophelos_logo.png';
 import './App.css';
+// import { Link } from 'react-router-dom';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        {/* <h1 style={h1_style}><Link to="/About">About</Link></h1> */}
+        <h1 style={h1_style}>About</h1>
+        <img src={logo} className="App-logo" alt="ophelos_logo" style={{width:500, height:80}} />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          This is the first page of the Ophelos final assessment.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
     </div>
   );
 }
 
+
+const h1_style = {
+  fontSize : 16,
+  position : 'absolute',
+  top : 0
+}
 export default App;
