@@ -8,10 +8,11 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1 style={h1_style}>
-          <Link to="/About" style={{color:'inherit', textDecoration:'inherit'}}>About</Link>
+                <Link to="/" style={{color:'inherit', textDecoration:'inherit'}}> Home </Link> |
+                <Link to="/About" style={{color:'inherit', textDecoration:'inherit'}}> About</Link> 
         </h1>
         <img src={logo} className="App-logo" alt="ophelos_logo"  style = {{width:500, height:80, position:'inherit'}}/>
-        <p> Your income and expenditure app! </p>
+        <p> Welcome to your income and expenditure app! </p>
         <div>
           <button className="classicButton">History</button>
           <button className="classicButton">New Report</button>
