@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import fire from './firebaseConfig';
 import logo from './imgs/ophelos_logo.png';
 
 class Login extends Component {
@@ -9,17 +8,36 @@ class Login extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.state = {
             email: "",
-            password: "" 
+            password: "",
+            flag: 0
         }
     }
-    
 
     login(e) {
         e.preventDefault();
-        fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u) => {
-        }).catch((error) => {
-            console.log(error);
-        });
+        fetch('/flaskLogin', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(this.state),
+            })
+            .then(res => res.json())
+            .then(res => {
+                console.log(res.auth);
+                if(res.auth===true){
+                    this.props.handleSuccessfulAuth(res);
+                    this.setState({flag: 1});
+                }
+                else {
+                    this.setState({flag: 2});
+                    return false;
+                }
+            })
+            .catch(error => {
+                this.setState({flag: 2});
+                console.log(error); 
+            });
       }
     
       handleChange(e) {
@@ -37,6 +55,7 @@ class Login extends Component {
                 <input className="loginFields" type='text' placeholder="Email" name="email" value={this.state.email} onChange={this.handleChange}></input>
                 <input className="loginFields" type='password' placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange}></input>
                 <button className="loginButton" onClick={this.login}>Login</button>
+                {this.state.flag === 2 && <p style={{color:"red", fontSize:16}}>Your login credentials could not be verified, please try again.</p>} 
             </form></div>
         </header>
         )

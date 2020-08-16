@@ -7,7 +7,6 @@ import Home from './Home';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter, Route } from 'react-router-dom';
 
-
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
