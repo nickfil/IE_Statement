@@ -17,28 +17,59 @@
   color: #61dafb;
 }
 
-.classicButton {
-  margin: 0 10px 0 10px;
+.loginButton {
+  height: 45px;
+  margin: 30px 10px 0 10px;
   font-weight: 400;
   font-size: 18px;
   color: #17cdff;
-  background-color: #243055;
-  border-color: #243055;
+  background-color: transparent;
+  border-color: #17cdff;
   padding: 10px 20px;
-  border: none;
-  border-radius: 0.25rem;
+  border-radius: 0.4rem;
+  border-style: solid;
   width: 140px;
   text-align: center;
   transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 
-.classicButton:hover {
-  color: #243055;
+.loginButton:hover {
+  color: white;
   border-color: #17cdff;
   background-color: #17cdff;
   cursor: pointer;
 }
 
-.classicButton:focus {
-  outline:0;
+.loginButton:focus {
+  outline: 0;
+}
+
+.loginFields:focus {
+  outline: 2px;
+}
+
+::placeholder {
+  color: white;
+  opacity: 0.4;
+}
+
+.loginFields {
+  padding-left: 10px;
+  font-weight: 400;
+  font-size: 18px;
+  color: #17cdff;
+  height: 39px;
+  font-size: 18px;
+  border-radius: 0.4rem;
+  background-color: transparent;
+  border-color: #17cdff;
+  border-style: solid;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.form {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

@@ -1,35 +1,41 @@
 import React from 'react';
-import logo from './imgs/ophelos_logo.png';
 import './App.css';
-import { Link } from 'react-router-dom';
+import Login from './Login';
+import Home from './Home';
 
-function App() {
-  return (
+import 'firebase/auth';
+import fire from './firebaseConfig';
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user:  {}
+    }
+  }
+
+  componentDidMount() {
+    this.authListener();
+  }
+
+  authListener() {
+    fire.auth().onAuthStateChanged((user) => {
+      console.log(user);
+      if(user) {
+        this.setState({ user });
+      } else {
+        this.setState({ user: null });
+      }
+    });
+  }
+
+  render () {
+    return (
     <div className="App">
-      <header className="App-header">
-        <h1 style={h1_style}>
-                <Link to="/" style={{color:'inherit', textDecoration:'inherit'}}> Home </Link> |
-                <Link to="/About" style={{color:'inherit', textDecoration:'inherit'}}> About</Link> 
-        </h1>
-        <img src={logo} className="App-logo" alt="ophelos_logo"  style = {{width:500, height:80, position:'inherit'}}/>
-        <p> Welcome to your income and expenditure app! </p>
-        <div>
-          <button className="classicButton">History</button>
-          <button className="classicButton">New Report</button>
-        </div>
-      </header>
-
+      {this.state.user ? (<Home/>) : (<Login/>)}
     </div>
-  );
+    );
+  }
 }
 
-
-const h1_style = {
-  fontSize : 16,
-  position : 'absolute',
-  top : 10,
-  right : 30,
-  color : 'white',
-  textDecoration : 'none'
-}
 export default App;

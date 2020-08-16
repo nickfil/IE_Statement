@@ -1,0 +1,57 @@
+.App {
+    text-align: center;
+  }
+  
+  .App-header {
+    background-image: linear-gradient(118deg, #2b3a75 19%, #5586d8 79%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  
+  .App-link {
+    color: #61dafb;
+  }
+  
+  .classicButton {
+    margin: 0 10px 0 10px;
+    font-weight: 400;
+    font-size: 18px;
+    color: #17cdff;
+    background-color: #243055;
+    border-color: #243055;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 0.25rem;
+    width: 140px;
+    text-align: center;
+    transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  }
+  
+  .classicButton:hover {
+    color: #243055;
+    border-color: #17cdff;
+    background-color: #17cdff;
+    cursor: pointer;
+  }
+  
+  .classicButton:focus {
+    outline:0;
+  }
+  
+  .logoutBtn {
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-size: 16px;
+  }
+  .logoutBtn:hover  {
+    cursor: pointer;
+  }
+  .logoutBtn:focus {
+    outline: 0;
+  }
