@@ -34,6 +34,7 @@ class Home extends React.Component {
     logout() {
         localStorage.clear();
         this.props.history.push('/');
+        window.location.reload();
     }
 
     render () {
@@ -44,7 +45,7 @@ class Home extends React.Component {
           <h1 style={h1_style}>
                   <Link to="/Home" style={{color:'inherit', textDecoration:'inherit'}}> Home </Link> |
                   <Link to="/About" style={{color:'inherit', textDecoration:'inherit'}}> About</Link> |
-                  <button onClick={() => this.logout()}>Logout</button>
+                  <button className="logoutBtn" onClick={() => this.logout()}>Logout</button>
           </h1>
           <img src={logo} className="App-logo" alt="ophelos_logo"  style = {{width:500, height:80, position:'inherit'}}/>
           <p> Hello {this.state.user.email}, welcome to your income and expenditure app! </p>
