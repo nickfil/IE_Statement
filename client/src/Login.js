@@ -26,6 +26,7 @@ class Login extends Component {
             .then(res => {
                 console.log(res.auth);
                 if(res.auth===true){
+                    localStorage.setItem('userData', JSON.stringify(res));
                     this.props.handleSuccessfulAuth(res);
                     this.setState({flag: 1});
                 }

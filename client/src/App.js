@@ -14,13 +14,17 @@ class App extends React.Component {
 
   handleSuccessfulAuth(res) {
     this.setState({user: res});
-    console.log(res);
   }
+
+  componentDidMount() {
+     this.setState({user: JSON.parse(localStorage.getItem('userData'))});
+     console.log(this.state.user);
+   }
 
   render () {
     return (
     <div className="App">
-      {this.state.user.auth===true ? (<Home user={this.state.user} />) : (<Login handleSuccessfulAuth={this.handleSuccessfulAuth}/>)}
+      {this.state.user && this.state.user.auth===true ? (<Home/>) : (<Login handleSuccessfulAuth={this.handleSuccessfulAuth}/>)}
     </div>
     );
   }
