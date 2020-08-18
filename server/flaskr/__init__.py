@@ -99,7 +99,6 @@ def create_app(test_config=None):
                 for user in all_users.each():
                     if(user.val()["email"]==req["user"]["email"]):
                         cur_user=(db.child("users").child(user.key()).child("entries").get()).val()
-                        # print(cur_user.val())
                         return json.dumps(cur_user)
             except:
                 print(sys.exc_info())

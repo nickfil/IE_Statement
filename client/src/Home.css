@@ -56,6 +56,21 @@
     outline: 0;
   }
 
+  .close{
+    float: right;
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: white;
+    margin-top: -10px;
+  }
+  .close:hover  {
+    cursor: pointer;
+  }
+  .close:focus {
+    outline: 0;
+  }
+
   .h2 {
     font-size : 14px;
     position: absolute;
@@ -97,4 +112,21 @@
     vertical-align: middle;
     height: 50px;
     margin-top: 8px;
+  }
+
+  .infoCards {
+    height: 90px;
+    width: 500px;
+    border: 1px solid #17cdff;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-right: 50px;
+    transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  }
+
+  .infoCards:hover {
+    color: #243055;
+    border-color: #17cdff;
+    background-color: #17cdff;
   }

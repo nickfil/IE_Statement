@@ -3,6 +3,7 @@ import logo from './imgs/ophelos_logo.png';
 import './Home.css';
 import { Link, withRouter } from 'react-router-dom'; 
 import Modal from 'react-modal';
+import Card from 'react-bootstrap/Card'
 
 class Home extends React.Component {
     constructor(props) {
@@ -11,6 +12,7 @@ class Home extends React.Component {
         this.state = {
             apiText: "",
             openModal: false,
+            openHistoryModal: false,
             user: {},
             history: {},
             dname: "",
@@ -44,7 +46,8 @@ class Home extends React.Component {
         })
           .then((response) => response.json())
           .then((data) => this.setState({dname: data.dname}))
-          .catch((e) => {console.log(e);});
+          .catch((e) => {console.log(e);
+        });
     }
 
     getHistory(st8) {
@@ -81,6 +84,11 @@ class Home extends React.Component {
         this.setState({openModal: st});
     }
 
+    historyCard() {
+        var st = this.state.openHistoryModal ? false : true;
+        this.setState({openHistoryModal: st});
+    }
+
     logout() {
         localStorage.clear();
         this.props.history.push('/');
@@ -89,7 +97,30 @@ class Home extends React.Component {
 
     handleObjectChange(e) {
         this.setState({[e.target.name]:e.target.value});
-      }
+    }
+
+    projectCards = () => {
+        var hist = this.state.history;
+        if(hist!=={}){
+            return (
+            Object.keys(hist).map(key => {
+                return (
+                    <Card key={key} className="infoCards">
+                        <Card.Body>
+                            <Card.Title style={{fontSize: '20px', textDecoration:'underline'}}>{key.split("|")[0]}</Card.Title>
+                            <Card.Text style={{fontSize: '16px', display: 'grid'}}>
+                                <span > Disposable Income: {hist[key]["di"]} </span>
+                                <span style={{marginTop: '10px'}}> I&amp;E Rating: {hist[key]["ieRating"]} </span>
+                            </Card.Text>
+                        </Card.Body>
+                    </Card>
+                )})
+            )
+        }
+        else{
+            return <span style={{width:'500px'}}> Nothing here yet, please complete a form.</span>
+        }
+    }
 
     render () {
 
@@ -104,7 +135,7 @@ class Home extends React.Component {
           <img src={logo} className="App-logo" alt="ophelos_logo"  style = {{width:500, height:80, position:'inherit'}}/>
           <p> {this.state.dname ? "Hello " + this.state.dname + ", welcome to your income and expenditure app!" : "Welcome, please start a new report to setup your profile"} </p>
           <div>
-            <button className="classicButton" onClick={() => this.getHistory(this.state)}>History</button>
+            <button className="classicButton" onClick={() => {this.getHistory(this.state); this.historyCard()}}>History</button>
             <button className="classicButton" onClick={() => this.setNewReportCard()}>New Report</button>
           </div>
         </header>
@@ -115,6 +146,9 @@ class Home extends React.Component {
                shouldCloseOnOverlayClick={false}
                style={modalStyles}>
             <header>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={() => this.setNewReportCard()}>
+                    <span aria-hidden="true">&times;</span>
+                </button>
                 <h1>New Report</h1>
             </header>
             <div className="row"><form>
@@ -132,6 +166,10 @@ class Home extends React.Component {
                     <h2>Income</h2>
                     <div className="inputItem"><label>Salary </label><input className="inputData" type="number" name="salary" value={this.state.salary} onChange={this.handleObjectChange} min="0"></input></div>
                     <div className="inputItem"><label>Other  </label><input className="inputData" type="number" name="other" value={this.state.other} onChange={this.handleObjectChange} min="0"></input></div>
+
+                    <h2>Debt</h2>
+                    <div className="inputItem"><label>Loans        </label><input className="inputData" type="number" name="loans" value={this.state.loans} onChange={this.handleObjectChange} min="0"></input></div>
+                    <div className="inputItem"><label>Credit cards </label><input className="inputData" type="number" name="creditCards" value={this.state.creditCards} onChange={this.handleObjectChange} min="0"></input></div>
                 </div>
                 <div className="column">
                     <h2>Expenses</h2>
@@ -141,16 +179,23 @@ class Home extends React.Component {
                     <div className="inputItem"><label>Travel    </label><input className="inputData" type="number" name="travel" value={this.state.travel} onChange={this.handleObjectChange} min="0"></input></div>
                     <div className="inputItem"><label>Food      </label><input className="inputData" type="number" name="food" value={this.state.food} onChange={this.handleObjectChange} min="0"></input></div>
                 </div>
-                <div className="column">
-                    <h2>Debt</h2>
-                    <div className="inputItem"><label>Loans        </label><input className="inputData" type="number" name="loans" value={this.state.loans} onChange={this.handleObjectChange} min="0"></input></div>
-                    <div className="inputItem"><label>Credit cards </label><input className="inputData" type="number" name="creditCards" value={this.state.creditCards} onChange={this.handleObjectChange} min="0"></input></div>
-                </div>
             </form></div>
             <footer>
                 <button className="loginButton" style={{float:'left'}} onClick={() => this.setNewReportCard()} >Close</button>
                 <button className="loginButton" style={{float:'right'}} onClick={() => this.submit(this.state)}>Save changes</button>
             </footer>
+        </Modal>
+
+        {/* History Modal */}
+        <Modal  isOpen={this.state.openHistoryModal}
+                onRequestClose={() => this.historyCard()}
+                shouldCloseOnOverlayClick={false}
+                style={modalStyles}>
+            <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={() => this.historyCard()}>
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {this.projectCards()}
+            <button className="loginButton" style={{float:'left'}} onClick={() => this.historyCard()} >Close</button>
         </Modal>
       </div>
       );
@@ -168,6 +213,8 @@ class Home extends React.Component {
 
   const modalStyles = {
     content : {
+      maxHeight: '90%',
+      overflow: 'auto',
       color: 'white',
       top: '50%',
       left: '50%',
@@ -177,7 +224,8 @@ class Home extends React.Component {
       background: 'linear-gradient(118deg, #2b3a75 19%, #5586d8 79%)',
       borderRadius: '8px',
       border: 'none',
-      width: '60%'
+      width: 'fit-content',
+      transition: 'color 0.3s ease-in-out'
     }
   };
 
