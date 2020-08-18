@@ -7,24 +7,74 @@ import Modal from 'react-modal';
 class Home extends React.Component {
     constructor(props) {
         super(props);
+        this.handleObjectChange=this.handleObjectChange.bind(this);
         this.state = {
             apiText: "",
             openModal: false,
-            user: {}
+            user: {},
+            history: {},
+            dname: "",
+            name: "",
+            email: "",
+            phone: "",
+            dob: "",
+            address: "",
+            salary: "",
+            other: "",
+            mortgage: "",
+            rent: "",
+            utilities: "",
+            travel: "",
+            food: "",
+            loans: "",
+            creditCards: ""
         }
     }
 
     componentDidMount() {
         Modal.setAppElement('body');
         this.setState({user: JSON.parse(localStorage.getItem('userData'))});
+        var info = JSON.parse(localStorage.getItem('userData'))
+        fetch('/getName', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(info.email),
+        })
+          .then((response) => response.json())
+          .then((data) => this.setState({dname: data.dname}))
+          .catch((e) => {console.log(e);});
     }
 
-    // componentDidMount() {
-    //     fetch('/hello')
-    //       .then((response) => response.json())
-    //       .then((data) => console.log('This is your data:', data.text))
-    //       .catch((e) => {console.log(e);});
-    //   }
+    getHistory(st8) {
+        fetch('/getHistory', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(st8),
+            })
+            .then((res) => res.json())
+            .then(data => {
+                this.setState({history: data});
+            })
+    } 
+
+    submit(st8) {
+        fetch('/sendForm', {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(st8),
+            })
+            .then(res => {
+                if(res.statusText==="OK"){
+                    window.location.reload();
+                }
+            })
+    }
 
     setNewReportCard() {
         var st = this.state.openModal ? false : true;
@@ -37,6 +87,10 @@ class Home extends React.Component {
         window.location.reload();
     }
 
+    handleObjectChange(e) {
+        this.setState({[e.target.name]:e.target.value});
+      }
+
     render () {
 
       return (
@@ -48,9 +102,9 @@ class Home extends React.Component {
                   <button className="logoutBtn" onClick={() => this.logout()}>Logout</button>
           </h1>
           <img src={logo} className="App-logo" alt="ophelos_logo"  style = {{width:500, height:80, position:'inherit'}}/>
-          <p> Hello {this.state.user.email}, welcome to your income and expenditure app! </p>
+          <p> {this.state.dname ? "Hello " + this.state.dname + ", welcome to your income and expenditure app!" : "Welcome, please start a new report to setup your profile"} </p>
           <div>
-            <button className="classicButton">History</button>
+            <button className="classicButton" onClick={() => this.getHistory(this.state)}>History</button>
             <button className="classicButton" onClick={() => this.setNewReportCard()}>New Report</button>
           </div>
         </header>
@@ -64,27 +118,38 @@ class Home extends React.Component {
                 <h1>New Report</h1>
             </header>
             <div className="row"><form>
+                {this.state.dname ? null :
+                <div className="column">
+                    <h2>Personal Info</h2>
+                    <div className="inputItem"><label>Name </label><input className="inputData" type="text" name="name" value={this.state.name} onChange={this.handleObjectChange} required></input></div>
+                    <div className="inputItem"><label>Email  </label><input className="inputData" type="email" name="email" value={this.state.email} onChange={this.handleObjectChange} required></input></div>
+                    <div className="inputItem"><label>Phone  </label><input className="inputData" type="number" name="phone" value={this.state.phone} onChange={this.handleObjectChange} required></input></div>
+                    <div className="inputItem"><label>Date of Birth  </label><input className="inputData" type="date" name="dob" value={this.state.dob} onChange={this.handleObjectChange} required></input></div>
+                    <div className="inputItem"><label>Address  </label><input className="inputData" type="text" name="address" value={this.state.address} onChange={this.handleObjectChange} required></input></div>
+                </div>
+                }
                 <div className="column">
                     <h2>Income</h2>
-                    <div><label>Salary: </label><input></input></div>
-                    <div><label>Other:  </label><input></input></div>
+                    <div className="inputItem"><label>Salary </label><input className="inputData" type="number" name="salary" value={this.state.salary} onChange={this.handleObjectChange} min="0"></input></div>
+                    <div className="inputItem"><label>Other  </label><input className="inputData" type="number" name="other" value={this.state.other} onChange={this.handleObjectChange} min="0"></input></div>
                 </div>
                 <div className="column">
                     <h2>Expenses</h2>
-                    <div><label>Mortgage:</label><input></input></div>
-                    <p>Rent:      <input></input></p>
-                    <p>Utilities: <input></input></p>
-                    <p>Travel:    <input></input></p>
-                    <p>Food:      <input></input></p>
-
+                    <div className="inputItem"><label>Mortgage  </label><input className="inputData" type="number" name="mortgage" value={this.state.mortgage} onChange={this.handleObjectChange} min="0"></input></div>
+                    <div className="inputItem"><label>Rent      </label><input className="inputData" type="number" name="rent" value={this.state.rent} onChange={this.handleObjectChange} min="0"></input></div>
+                    <div className="inputItem"><label>Utilities </label><input className="inputData" type="number" name="utilities" value={this.state.utilities} onChange={this.handleObjectChange} min="0"></input></div>
+                    <div className="inputItem"><label>Travel    </label><input className="inputData" type="number" name="travel" value={this.state.travel} onChange={this.handleObjectChange} min="0"></input></div>
+                    <div className="inputItem"><label>Food      </label><input className="inputData" type="number" name="food" value={this.state.food} onChange={this.handleObjectChange} min="0"></input></div>
+                </div>
+                <div className="column">
                     <h2>Debt</h2>
-                    <p>Loans:        <input></input></p>
-                    <p>Credit cards: <input></input></p>
+                    <div className="inputItem"><label>Loans        </label><input className="inputData" type="number" name="loans" value={this.state.loans} onChange={this.handleObjectChange} min="0"></input></div>
+                    <div className="inputItem"><label>Credit cards </label><input className="inputData" type="number" name="creditCards" value={this.state.creditCards} onChange={this.handleObjectChange} min="0"></input></div>
                 </div>
             </form></div>
             <footer>
-                <button className="loginFields" style={{float:'left'}} onClick={() => this.setNewReportCard()} >Close</button>
-                <button className="loginFields" style={{float:'right'}}>Save changes</button>
+                <button className="loginButton" style={{float:'left'}} onClick={() => this.setNewReportCard()} >Close</button>
+                <button className="loginButton" style={{float:'right'}} onClick={() => this.submit(this.state)}>Save changes</button>
             </footer>
         </Modal>
       </div>

@@ -67,11 +67,34 @@
 
   .column {
     float: left;
-    width: 50%;
+    width: 200px;
+  }
+
+  .row{
+    margin: 0 0 30px 0;
+    width: 100%;
   }
 
   .row:after {
     content: "";
     display: table;
     clear: both;
+  }
+
+  .inputData {
+    margin-top: 5px;
+    width: 150px;
+    border: none;
+    border-radius: 3px;
+  }
+
+  .inputData:focus {
+    outline: 0;
+  }
+
+  .inputItem {
+    display: table-caption;
+    vertical-align: middle;
+    height: 50px;
+    margin-top: 8px;
   }

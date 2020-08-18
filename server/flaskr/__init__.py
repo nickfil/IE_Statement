@@ -2,7 +2,9 @@ import os
 import sys
 import json
 from flask import Flask, request
+from datetime import date, datetime
 import pyrebase
+from Utilities import *
 from .auth.creds import config
 
 def create_app(test_config=None):
@@ -26,6 +28,7 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    today = date.today()
     # logging in firebase
     firebase = pyrebase.initialize_app(config)
     auth = firebase.auth()
@@ -42,9 +45,67 @@ def create_app(test_config=None):
             except:
                 return json.dumps({"auth" : False})
 
-    @app.route('/hello')
-    def hello():
-        return json.dumps({"text": "Hello guys"})
+    @app.route('/getName', methods=['POST', 'GET'])
+    def getName():
+        if request.method == 'POST':
+            req = request.json
+            all_users = db.child("users").get()
+            for user in all_users.each():
+                if(user.val()['email']==req):
+                    return json.dumps({'dname' : user.val()['name']})
+            return null
 
+    @app.route('/sendForm', methods=['POST', 'GET'])
+    def receiveForm():
+        if request.method == 'POST':
+            try:
+                req = request.json
+                try:
+                    info, data = Utilities.organizeFormFromRawFormInput(req)
+                except:
+                    print("ERROR")
+                
+
+                d4 = today.strftime("%b-%d-%Y")
+                time = datetime.now()
+                datetimeString = d4 + "|" + time.strftime("%H:%M")
+
+                if(info):
+                    info['entries']={datetimeString : data} 
+                    try:
+                        db.child("users").push(info)
+                    except:
+                        print(sys.exc_info())
+                else:
+                    all_users = db.child("users").get()
+                    for user in all_users.each():
+                        if(user.val()["email"]==req["user"]["email"]):
+                            cur_user=(db.child("users").child(user.key()).get()).val()
+                            cur_user["entries"][datetimeString]=data
+                            
+                            db.child("users").child(user.key()).update(cur_user)
+                    
+                print("SUCCESS - Database written")  
+                return json.dumps({"outcome": "SUCCESS"})
+            except:
+                return json.dumps({"outcome": "ERROR"})
+    
+    @app.route('/getHistory', methods=['POST', 'GET'])
+    def getHistory():
+        if request.method == 'POST':
+            req = request.json
+            try:
+                all_users = db.child("users").get()
+                for user in all_users.each():
+                    if(user.val()["email"]==req["user"]["email"]):
+                        cur_user=(db.child("users").child(user.key()).child("entries").get()).val()
+                        # print(cur_user.val())
+                        return json.dumps(cur_user)
+            except:
+                print(sys.exc_info())
+                return None
+
+        return json.dumps({"outcome": "FAILURE"})
+        
     return app
 
