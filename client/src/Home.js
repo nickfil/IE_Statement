@@ -66,7 +66,6 @@ class Home extends React.Component {
     } 
 
     submit(st8, info) {
-        console.log(info);
         //eslint-disable-next-line
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         var prevSt = JSON.parse(localStorage.getItem('userData'))
@@ -86,7 +85,6 @@ class Home extends React.Component {
                 body: JSON.stringify(st8),
                 })
                 .then(res => {
-                    console.log(res);
                     if(res.statusText==="OK"){
                         this.props.history.push('/');
                         window.location.reload();
