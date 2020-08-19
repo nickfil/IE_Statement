@@ -38,7 +38,7 @@ class Home extends React.Component {
         Modal.setAppElement('body');
         this.setState({user: JSON.parse(localStorage.getItem('userData'))});
         var info = JSON.parse(localStorage.getItem('userData'))
-        fetch('/getName', {
+        fetch('/api/getName', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
@@ -52,7 +52,7 @@ class Home extends React.Component {
     }
 
     getHistory(st8) {
-        fetch('/getHistory', {
+        fetch('/api/getHistory', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
@@ -74,7 +74,7 @@ class Home extends React.Component {
             return false;
         }
         else{
-            fetch('/sendForm', {
+            fetch('/api/sendForm', {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',

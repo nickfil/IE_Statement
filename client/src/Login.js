@@ -15,7 +15,7 @@ class Login extends Component {
 
     login(e) {
         e.preventDefault();
-        fetch('/flaskLogin', {
+        fetch('/api/flaskLogin', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
