@@ -50,9 +50,10 @@ def create_app(test_config=None):
         if request.method == 'POST':
             req = request.json
             all_users = db.child("users").get()
-            for user in all_users.each():
-                if(user.val()['email']==req):
-                    return json.dumps({'dname' : user.val()['name']})
+            if(all_users):
+                for user in all_users.each():
+                    if(user.val()['email']==req):
+                        return json.dumps({'dname' : user.val()['name']})
             return null
 
     @app.route('/sendForm', methods=['POST', 'GET'])
@@ -68,7 +69,7 @@ def create_app(test_config=None):
 
                 d4 = today.strftime("%b-%d-%Y")
                 time = datetime.now()
-                datetimeString = d4 + "|" + time.strftime("%H:%M")
+                datetimeString = d4 + "|" + time.strftime("%H:%M:%S")
 
                 if(info):
                     info['entries']={datetimeString : data} 
@@ -102,7 +103,6 @@ def create_app(test_config=None):
                         return json.dumps(cur_user)
             except:
                 print(sys.exc_info())
-                return None
 
         return json.dumps({"outcome": "FAILURE"})
         

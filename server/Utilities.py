@@ -29,14 +29,17 @@ class Utilities:
         if(sum(income.values()) is not 0):
             ie=sum(expenses.values()) /sum(income.values())
 
-        if(ie<0.1):
+        if(ie<0.1 and ie>0):
             ieRating='A'
         elif(ie>=0.1 and ie<0.3):
             ieRating='B'
         elif(ie>=0.3 and ie<0.5):
             ieRating='C'
-        else:
+        elif(ie>=0.5 and ie<1.0):
             ieRating='D'
+        else:
+            ieRating='Not Available'
+
 
         data={}
         data['income'] = income

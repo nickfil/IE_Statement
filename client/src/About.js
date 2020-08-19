@@ -12,9 +12,11 @@ class About extends React.Component {
                         <Link to="/Home" style={{color:'inherit', textDecoration:'inherit'}}> Home </Link>
                     </h1>
                     <Link to="/Home"><img src={logo} className="App-logo" alt="ophelos_logo"/></Link>
-                    <p>
-                        BLA BLA BLA HOW I BUILT THIS HERE
-                    </p>
+                    <div style={{textAlign:'left'}}>
+                        <li>The frontend is built using React.js</li>
+                        <li>The backend is built using Python and running on a Flask server</li>
+                        <li>The database is a firebase database</li>
+                    </div>
                 </header>
             </div>
         );

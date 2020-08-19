@@ -3,7 +3,7 @@ import logo from './imgs/ophelos_logo.png';
 import './Home.css';
 import { Link, withRouter } from 'react-router-dom'; 
 import Modal from 'react-modal';
-import Card from 'react-bootstrap/Card'
+import Card from 'react-bootstrap/Card';
 
 class Home extends React.Component {
     constructor(props) {
@@ -13,6 +13,7 @@ class Home extends React.Component {
             apiText: "",
             openModal: false,
             openHistoryModal: false,
+            errorInInput: false,
             user: {},
             history: {},
             dname: "",
@@ -65,18 +66,25 @@ class Home extends React.Component {
     } 
 
     submit(st8) {
-        fetch('/sendForm', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify(st8),
-            })
-            .then(res => {
-                if(res.statusText==="OK"){
-                    window.location.reload();
-                }
-            })
+        // eslint-disable-next-line
+        // const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        // if(!st8.name || !re.test(st8.email) || !st8.phone || !st8.dob || !st8.address){
+        //     return false;
+        // }
+
+            fetch('/sendForm', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(st8),
+                })
+                .then(res => {
+                    console.log(res);
+                    if(res.statusText==="OK"){
+                        window.location.reload();
+                    }
+                })
     }
 
     setNewReportCard() {
@@ -101,29 +109,26 @@ class Home extends React.Component {
 
     projectCards = () => {
         var hist = this.state.history;
-        if(hist!=={}){
+        if(hist.outcome==="FAILURE"){
+            return <div><span style={{width:'500px', fontSize: '18px'}}> Nothing here yet, please complete a form.</span></div>
+        }
+        else{
             return (
             Object.keys(hist).map(key => {
                 return (
                     <Card key={key} className="infoCards">
-                        <Card.Body>
-                            <Card.Title style={{fontSize: '20px', textDecoration:'underline'}}>{key.split("|")[0]}</Card.Title>
-                            <Card.Text style={{fontSize: '16px', display: 'grid'}}>
-                                <span > Disposable Income: {hist[key]["di"]} </span>
-                                <span style={{marginTop: '10px'}}> I&amp;E Rating: {hist[key]["ieRating"]} </span>
-                            </Card.Text>
-                        </Card.Body>
+                        <Card.Title style={{fontSize: '20px', textDecoration:'underline'}}>{key.split("|")[0]}</Card.Title>
+                        <Card.Text style={{fontSize: '16px', display: 'grid'}}>
+                            <span > Disposable Income: {hist[key]["di"]} </span>
+                            <span style={{marginTop: '10px'}}> I&amp;E Rating: {hist[key]["ieRating"]} </span>
+                        </Card.Text>
                     </Card>
                 )})
             )
         }
-        else{
-            return <span style={{width:'500px'}}> Nothing here yet, please complete a form.</span>
-        }
     }
 
     render () {
-
       return (
       <div className="Home">
         <header className="App-header">
@@ -157,7 +162,7 @@ class Home extends React.Component {
                     <h2>Personal Info</h2>
                     <div className="inputItem"><label>Name </label><input className="inputData" type="text" name="name" value={this.state.name} onChange={this.handleObjectChange} required></input></div>
                     <div className="inputItem"><label>Email  </label><input className="inputData" type="email" name="email" value={this.state.email} onChange={this.handleObjectChange} required></input></div>
-                    <div className="inputItem"><label>Phone  </label><input className="inputData" type="number" name="phone" value={this.state.phone} onChange={this.handleObjectChange} required></input></div>
+                    <div className="inputItem"><label>Phone </label><input className="inputData" type="tel" name="phone" value={this.state.phone} onChange={this.handleObjectChange} required></input></div>
                     <div className="inputItem"><label>Date of Birth  </label><input className="inputData" type="date" name="dob" value={this.state.dob} onChange={this.handleObjectChange} required></input></div>
                     <div className="inputItem"><label>Address  </label><input className="inputData" type="text" name="address" value={this.state.address} onChange={this.handleObjectChange} required></input></div>
                 </div>
@@ -181,8 +186,14 @@ class Home extends React.Component {
                 </div>
             </form></div>
             <footer>
-                <button className="loginButton" style={{float:'left'}} onClick={() => this.setNewReportCard()} >Close</button>
-                <button className="loginButton" style={{float:'right'}} onClick={() => this.submit(this.state)}>Save changes</button>
+                {this.state.errorInInput ?
+                    <span style={{color: 'red', width:'100%', display:'inline-block'}}> One of the fields is wrong, please enter the correct type of input.</span> :
+                    null
+                }
+                <div>
+                    <button className="loginButton" style={{float:'left'}} onClick={() => this.setNewReportCard()} >Close</button>
+                    <button className="loginButton" style={{float:'right'}} onClick={() => this.submit(this.state)} type="submit">Submit</button>
+                </div>
             </footer>
         </Modal>
 
@@ -225,7 +236,8 @@ class Home extends React.Component {
       borderRadius: '8px',
       border: 'none',
       width: 'fit-content',
-      transition: 'color 0.3s ease-in-out'
+      transition: 'color 0.3s ease-in-out',
+      padding: '20px 20px 20px 50px'
     }
   };
 

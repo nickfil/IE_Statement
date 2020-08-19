@@ -114,8 +114,12 @@
     margin-top: 8px;
   }
 
+  .inputItem:invalid {
+    border: 2px solid red;
+  }
+
   .infoCards {
-    height: 90px;
+    height: fit-content;
     width: 500px;
     border: 1px solid #17cdff;
     border-radius: 5px;
