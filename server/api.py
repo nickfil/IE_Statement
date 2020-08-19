@@ -1,14 +1,14 @@
 import os
 import sys
 import json
-from flask import Flask, request
+from flask import Flask, request, render_template
 from datetime import date, datetime
 import pyrebase
 from Utilities import *
 from auth.creds import config
 
 # create and configure the app
-app = Flask(__name__, instance_relative_config=True, static_folder="../client/build", static_url_path='/')
+app = Flask(__name__, instance_relative_config=True, static_folder="build", template_folder="build", static_url_path='')
 app.config.from_mapping(
     SECRET_KEY='dev',
     DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
@@ -28,7 +28,7 @@ db = firebase.database()
 
 @app.route('/')
 def index():
-    return app.send_static_file("index.html")
+    return render_template("index.html")
 
 @app.route('/api/flaskLogin', methods=['POST', 'GET'])
 def login():
