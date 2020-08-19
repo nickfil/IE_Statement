@@ -65,13 +65,15 @@ class Home extends React.Component {
             })
     } 
 
-    submit(st8) {
-        // eslint-disable-next-line
-        // const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        // if(!st8.name || !re.test(st8.email) || !st8.phone || !st8.dob || !st8.address){
-        //     return false;
-        // }
-
+    submit(st8, info) {
+        console.log(info);
+        //eslint-disable-next-line
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if((!st8.name || !re.test(st8.email) || !st8.phone || !st8.dob || !st8.address) && !info){
+            this.setState({errorInInput:true});
+            return false;
+        }
+        else{
             fetch('/sendForm', {
                 method: 'POST',
                 headers: {
@@ -83,8 +85,10 @@ class Home extends React.Component {
                     console.log(res);
                     if(res.statusText==="OK"){
                         window.location.reload();
+                        return true;
                     }
                 })
+            }
     }
 
     setNewReportCard() {
@@ -160,11 +164,11 @@ class Home extends React.Component {
                 {this.state.dname ? null :
                 <div className="column">
                     <h2>Personal Info</h2>
-                    <div className="inputItem"><label>Name </label><input className="inputData" type="text" name="name" value={this.state.name} onChange={this.handleObjectChange} required></input></div>
-                    <div className="inputItem"><label>Email  </label><input className="inputData" type="email" name="email" value={this.state.email} onChange={this.handleObjectChange} required></input></div>
-                    <div className="inputItem"><label>Phone </label><input className="inputData" type="tel" name="phone" value={this.state.phone} onChange={this.handleObjectChange} required></input></div>
-                    <div className="inputItem"><label>Date of Birth  </label><input className="inputData" type="date" name="dob" value={this.state.dob} onChange={this.handleObjectChange} required></input></div>
-                    <div className="inputItem"><label>Address  </label><input className="inputData" type="text" name="address" value={this.state.address} onChange={this.handleObjectChange} required></input></div>
+                    <div className="inputItem"><label>Name<span style={{color:'red'}}>*</span></label><input className="inputData" type="text" name="name" value={this.state.name} onChange={this.handleObjectChange} required></input></div>
+                    <div className="inputItem"><label>Email<span style={{color:'red'}}>*</span></label><input className="inputData" type="email" name="email" value={this.state.email} onChange={this.handleObjectChange} required></input></div>
+                    <div className="inputItem"><label>Phone<span style={{color:'red'}}>*</span></label><input className="inputData" type="tel" name="phone" value={this.state.phone} onChange={this.handleObjectChange} required></input></div>
+                    <div className="inputItem"><label>Date of Birth<span style={{color:'red'}}>*</span></label><input className="inputData" type="date" name="dob" value={this.state.dob} onChange={this.handleObjectChange} required></input></div>
+                    <div className="inputItem"><label>Address<span style={{color:'red'}}>*</span></label><input className="inputData" type="text" name="address" value={this.state.address} onChange={this.handleObjectChange} required></input></div>
                 </div>
                 }
                 <div className="column">
@@ -187,12 +191,12 @@ class Home extends React.Component {
             </form></div>
             <footer>
                 {this.state.errorInInput ?
-                    <span style={{color: 'red', width:'100%', display:'inline-block'}}> One of the fields is wrong, please enter the correct type of input.</span> :
+                    <span style={{color: 'red', width:'100%', display:'inline-block'}}> One of the fields is wrong or empty, please enter the correct type of input.</span> :
                     null
                 }
                 <div>
                     <button className="loginButton" style={{float:'left'}} onClick={() => this.setNewReportCard()} >Close</button>
-                    <button className="loginButton" style={{float:'right'}} onClick={() => this.submit(this.state)} type="submit">Submit</button>
+                    <button className="loginButton" style={{float:'right'}} onClick={() => this.submit(this.state, this.state.dname)} type="submit">Submit</button>
                 </div>
             </footer>
         </Modal>
