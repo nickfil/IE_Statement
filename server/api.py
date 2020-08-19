@@ -5,10 +5,10 @@ from flask import Flask, request
 from datetime import date, datetime
 import pyrebase
 from Utilities import *
-from .auth.creds import config
+from auth.creds import config
 
 # create and configure the app
-app = Flask(__name__, instance_relative_config=True)
+app = Flask(__name__, instance_relative_config=True, static_folder="../client/build", static_url_path='/')
 app.config.from_mapping(
     SECRET_KEY='dev',
     DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
@@ -25,6 +25,10 @@ today = date.today()
 firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 db = firebase.database()
+
+@app.route('/')
+def index():
+    return app.send_static_file("index.html")
 
 @app.route('/api/flaskLogin', methods=['POST', 'GET'])
 def login():
