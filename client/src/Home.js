@@ -167,7 +167,7 @@ class Home extends React.Component {
                     <div className="inputItem"><label>Name<span style={{color:'red'}}>*</span></label><input className="inputData" type="text" name="name" value={this.state.name} onChange={this.handleObjectChange} required></input></div>
                     <div className="inputItem"><label>Email<span style={{color:'red'}}>*</span></label><input className="inputData" type="email" name="email" value={this.state.email} onChange={this.handleObjectChange} required></input></div>
                     <div className="inputItem"><label>Phone<span style={{color:'red'}}>*</span></label><input className="inputData" type="tel" name="phone" value={this.state.phone} onChange={this.handleObjectChange} required></input></div>
-                    <div className="inputItem"><label>Date of Birth<span style={{color:'red'}}>*</span></label><input className="inputData" type="date" name="dob" value={this.state.dob} onChange={this.handleObjectChange} required></input></div>
+                    <div className="inputItem"><label>Date of Birth<span style={{color:'red'}}>*</span></label><input className="inputData" type="date" name="dob" value={this.state.dob} onChange={this.handleObjectChange} max='2020-08-20' required></input></div>
                     <div className="inputItem"><label>Address<span style={{color:'red'}}>*</span></label><input className="inputData" type="text" name="address" value={this.state.address} onChange={this.handleObjectChange} required></input></div>
                 </div>
                 }
