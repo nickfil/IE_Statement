@@ -5,15 +5,15 @@ import App from './App';
 import About from './About';
 import Home from './Home';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { HashRouter, Route } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <HashRouter>
       <Route exact path="/" component={App}/>
       <Route exact path="/Home" component={Home}/>
       <Route exact path="/About" component={About} />
-    </BrowserRouter>
+    </HashRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

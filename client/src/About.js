@@ -31,7 +31,6 @@ class About extends React.Component {
                         </ul>
                         <h1 style={{fontSize:'30px'}}> Known Issues </h1>
                         <ul>
-                            <li>The login token does not expire, this is done on purpose</li>
                             <li>A SQL database could be better in this case, I was however 
                                 very familiar with the integration of firebase</li>
                             <li>Rendering could be done faster</li>
