@@ -50,7 +50,7 @@ class Login extends Component {
     render() {
         return (
         <header className="App-header">
-            <img src={logo} className="App-logo" alt="ophelos_logo"  style = {{width:500, height:80, position:'inherit'}}/>
+            <img src={logo} className="App-logo" alt="ophelos_logo"  style = {{width:'300px', height:'140px', position:'inherit'}}/>
             <p>Please Login.</p>
             <div><form>
                 <input className="loginFields" type='text' placeholder="Email" name="email" value={this.state.email} onChange={this.handleChange}></input>

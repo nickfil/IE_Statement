@@ -144,7 +144,7 @@ class Home extends React.Component {
                   <Link to="/About" style={{color:'inherit', textDecoration:'inherit'}}> About</Link> |
                   <button className="logoutBtn" onClick={() => this.logout()}>Logout</button>
           </h1>
-          <img src={logo} className="App-logo" alt="ophelos_logo"  style = {{width:500, height:80, position:'inherit'}}/>
+          <img src={logo} className="App-logo" alt="ophelos_logo"  style = {{width:300, height:140, position:'inherit'}}/>
           <p> {this.state.dname ? "Hello " + this.state.dname + ", welcome to your income and expenditure app!" : "Welcome, please start a new report to setup your profile"} </p>
           <div>
             <button className="classicButton" onClick={() => {this.getHistory(this.state); this.historyCard()}}>History</button>

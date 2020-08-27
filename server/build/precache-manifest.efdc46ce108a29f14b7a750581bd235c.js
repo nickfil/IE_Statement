@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e9a60cb1583b90cf3bff7ca48ec812e1",
+    "revision": "8264c87ab9257f5ebe66dc655b4af830",
     "url": "/index.html"
   },
   {
-    "revision": "985b520c258c70603ca4",
+    "revision": "65177792d2d595902f1f",
     "url": "/static/css/main.6b3eabc3.chunk.css"
   },
   {
@@ -16,15 +16,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/static/js/2.065f07d5.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "985b520c258c70603ca4",
-    "url": "/static/js/main.6e19952e.chunk.js"
+    "revision": "65177792d2d595902f1f",
+    "url": "/static/js/main.d248b59a.chunk.js"
   },
   {
     "revision": "9b4e396c183e42c1fa5c",
     "url": "/static/js/runtime-main.09b85ec0.js"
   },
   {
-    "revision": "d933d51000e83b03357b18e0dc025379",
-    "url": "/static/media/ophelos_logo.d933d510.png"
+    "revision": "84a988748fe6143adebb4b10f548e462",
+    "url": "/static/media/ophelos_logo.84a98874.png"
   }
 ]);
